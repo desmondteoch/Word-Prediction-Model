@@ -1,0 +1,51 @@
+---
+title: 'Data Science Capstone Project: Word Prediction Model'
+author: 'Desmond Teo'
+date: '`format(Sys.Date(), "%b %d %Y")`'
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(xtable)
+knitr::opts_chunk$set(echo = FALSE)
+setwd("C:/Users/desmo/Documents/R/DataScienceCapstone")
+unigram <- read.csv("unigram.csv")
+```
+
+## Introduction
+
+This data science capstone project involves working on a text-based dataset to create a word prediction model that is able to predict the next word of a sentence based on user input.
+
+The goal is to build a predictive text model and present it through a shiny app UI.
+
+The data is provided by SwiftKey and is available [here](https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip).
+
+*Shiny App* - [desmondteoch.shinyapps.io/WordPredictionModel]
+*Github Repo* - []
+
+## Data Pre-processing
+
+Before the prediction text model could be built, the raw data had to be pre-processed through the following steps:
+- The raw data (three sources: US blogs, US twitter, US news) was sampled individuallyand combined into a single dataset
+- Text pre-processing steps such as converting to lowercase, removing numbers and punctuations, and removing stopwords were performed
+- The n-grams were then extracted and sorted by frequency to be used as data files for the prediction model
+
+An example is shown as such:
+```{r ngram}
+kable(head(unigram,4))
+```
+
+## Prediction Logic
+
+The prediction model operates by running through the n-gram models:
+- Firstly, each of the n-grams are transformed into compressed datasets ordered in decreasing frequencies
+- When the user enters the input words, the app puts these words through similar pre-processing steps as how the text data was treated
+- To predict the next word based on user input, the algorithm looks at the quadgram model first i.e. the first three words of the quadgram are matched to the last three words of the user input
+- If no matches are found, then the algorithm moves to the trigram model, and in the same manner, to the bigram, and lastly to the unigram model
+- From the unigram model, the word with the highest frequency is picked out and shown to the user
+
+## Shiny App 
+
+A screenshot of the shiny app is shown below.
+![Shiny App](example.png)
+
